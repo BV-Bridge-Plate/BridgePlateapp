@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bridgeplate/dbhelper/constant.dart';
 import 'package:bridgeplate/dbhelper/mongodb.dart';
 import 'package:bridgeplate/pages/donationCard.dart';
+import 'package:bridgeplate/pages/qrcode.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 //import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -23,7 +24,7 @@ class DMenuList {
 const List<DMenuList> items = <DMenuList>[
   DMenuList('profile', Icon(Icons.account_circle_outlined),
       Icon(Icons.account_circle)),
-  DMenuList('page 0', Icon(Icons.widgets_outlined), Icon(Icons.widgets)),
+  DMenuList('QR-Code', Icon(Icons.widgets_outlined), Icon(Icons.widgets)),
   DMenuList(
       'page 1', Icon(Icons.format_paint_outlined), Icon(Icons.format_paint)),
   DMenuList(
@@ -153,6 +154,29 @@ class _CardListScreenState extends State<CardListScreen> {
     Uint8List bytes = base64Decode(base64String);
     return MemoryImage(bytes);
   }
+  void onDrawerItemTap(String label) {
+  switch (label) {
+    case 'profile':
+      // Navigate to profile page or perform any other action
+      break;
+    case 'QR-Code':
+        Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>const QRCode() ));  // Navigate to QR-Scanner page or perform any other action
+      break;
+    case 'page 1':
+      // Navigate to page 1 or perform any other action
+      break;
+    case 'page 2':
+      // Navigate to page 2 or perform any other action
+      break;
+    case 'page 3':
+      // Navigate to page 3 or perform any other action
+      break;
+    default:
+      break;
+  }
+}
+
 
   void showCardDialog(BuildContext context, Map<dynamic, dynamic> cardData) {
     showDialog(
@@ -167,7 +191,7 @@ class _CardListScreenState extends State<CardListScreen> {
               SizedBox(height: 10),
               Text("Quantity: ${cardData['qty']}"),
               SizedBox(height: 10),
-              Text("Description: ${cardData['dsc']}"),
+              Text("Description: ${cardData['desc']}"),
             ],
           ),
           actions: [
@@ -223,11 +247,12 @@ class _CardListScreenState extends State<CardListScreen> {
               return ListTile(
                 title: Text(item.label),
                 leading: item.icon,
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              );
-            }).toList(),
+                 onTap: () {
+      Navigator.pop(context); // close the drawer
+      onDrawerItemTap(item.label); // handle the item tap
+    },
+  );
+}).toList(),
           ],
         ),
       ),
@@ -246,7 +271,7 @@ class _CardListScreenState extends State<CardListScreen> {
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                          //  Text(cards[index]['desc']),
+                          Text(cards[index]['desc']),
                             SizedBox(height: 10),
                             displayDistance(
                                 cards[index]?["lat"] ?? 0.0,
