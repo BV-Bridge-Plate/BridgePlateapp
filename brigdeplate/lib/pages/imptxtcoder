@@ -1,0 +1,16 @@
+  TextField(
+                  controller: controller,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Enter your URL')),
+  
+  
+   ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => QRImage(controller: controller)));
+              },
+              child: const Text('Generate'),
+            ),
